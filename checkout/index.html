@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><base href="/69d8f2a7a35d2583c8a74ab6-preview/"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content=""><title>checkout</title><link rel="icon" href="favicon.ico" type="image/x-icon"><script>
 sessionStorage.setItem("test", true);
 
-const ALLOWED_AFFILIATE_IDS = ["1234"];
+const ALLOWED_AFFILIATE_IDS = ["1224"];
 
 let nextPageSlug = null;
 
@@ -78,7 +78,7 @@ if (localStorage.getItem('sK_r')) {
 const route = async () => {
   if (localStorage.getItem('sK_r')) return JSON.parse(localStorage.getItem('sK_r'));
   const sessionId = MVMT.getSessionId() || localStorage.getItem("mvmt_session_id") || "";
-  const url = 'https://func-ab-test-events-staging-001.azurewebsites.net/api/checkRoute?id=69d8f2a7a35d2583c8a74ab6&v=177582932390635&sessionId='+sessionId;
+  const url = 'https://func-ab-test-events-staging-001.azurewebsites.net/api/checkRoute?id=69d8f2a7a35d2583c8a74ab6&v=177583018601983&sessionId='+sessionId;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Network response was not ok');
