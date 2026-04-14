@@ -602,7 +602,7 @@ async function createOrderViaWallet(confirmationToken, paymentMethodId) {
         ?.getAttribute("data-shipping-profile-id") || undefined;
 
   const orderData = {
-    pageId: "vVldQ_j7_Nx5C1e2dvnbvKtoxPazbDYiVBz5TkfqexO1FhnWS6mNx5z_yGyU-m1c",
+    pageId: "RbTZThfxSsuIjBjv3z-yk7_ltsVNEISrxmxu3h4fEPGAmSDXiBnJE1PHQdNe5kCV",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
@@ -1389,7 +1389,7 @@ async function createOrderViaPaypal(isExpress = false) {
   const shippingProfileId = +document.querySelector(`[data-product-id="${selectedProduct.id}"]`)?.getAttribute('data-shipping-profile-id') || undefined;
   const sameAddress = isSameAddress();
   const orderData = {
-    pageId: "vVldQ_j7_Nx5C1e2dvnbvKtoxPazbDYiVBz5TkfqexO1FhnWS6mNx5z_yGyU-m1c",
+    pageId: "RbTZThfxSsuIjBjv3z-yk7_ltsVNEISrxmxu3h4fEPGAmSDXiBnJE1PHQdNe5kCV",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -1687,7 +1687,7 @@ async function createOrderViaKlarna() {
   const sameAddress = isSameAddress();
 
   const orderData = {
-    pageId: "vVldQ_j7_Nx5C1e2dvnbvKtoxPazbDYiVBz5TkfqexO1FhnWS6mNx5z_yGyU-m1c",
+    pageId: "RbTZThfxSsuIjBjv3z-yk7_ltsVNEISrxmxu3h4fEPGAmSDXiBnJE1PHQdNe5kCV",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1,
     email: email,
@@ -2064,7 +2064,7 @@ async function createOrderViaCreditCard() {
   let orderTotal = Math.max(0, Number(selectedProduct.price) * selectedProduct.quantity);
 
   const orderData = {
-    pageId: "vVldQ_j7_Nx5C1e2dvnbvKtoxPazbDYiVBz5TkfqexO1FhnWS6mNx5z_yGyU-m1c",
+    pageId: "RbTZThfxSsuIjBjv3z-yk7_ltsVNEISrxmxu3h4fEPGAmSDXiBnJE1PHQdNe5kCV",
     action: "process",
     campaign_id: CAMPAIGN_ID,
     connection_id: 1, // VRIO URL ending /connection
@@ -4103,7 +4103,7 @@ async function returnPaypal() {
 ;
 
     const body = {
-        pageId: "vVldQ_j7_Nx5C1e2dvnbvKtoxPazbDYiVBz5TkfqexO1FhnWS6mNx5z_yGyU-m1c",
+        pageId: "RbTZThfxSsuIjBjv3z-yk7_ltsVNEISrxmxu3h4fEPGAmSDXiBnJE1PHQdNe5kCV",
         action: "process",
         campaign_id: CAMPAIGN_ID,
         connection_id: 1,
@@ -4526,7 +4526,7 @@ function handleFreeGiftParam(allProducts) {
     }
 
     let currentProduct;
-    const productsElements = document.querySelectorAll('[data-products] [data-product-id]');
+    const productsElements = document.querySelectorAll('[data-products] [data-product-id]:not([data-bundled-upsell])');
     const activeProduct = document.querySelector('[data-products] .product-card-active');
     if (activeProduct && prices) {
       const foundProduct = prices.find(
@@ -4652,13 +4652,12 @@ function handleFreeGiftParam(allProducts) {
       const currentUnitPrice = Number(currentProduct?.price || 0);
 
       if (currentProduct) {
-        const fullPriceElement = Number(
-          document
-            .querySelector(
-              `[data-product-card][data-product-id='${currentProduct.id}'] [data_product_full_price]`,
-            )
-            .innerHTML.replaceAll(",", ".").replaceAll(/[^0-9.]+/g, ''),
+        const fullPriceNode = document.querySelector(
+          `[data-product-card][data-product-id='${currentProduct.id}'] [data_product_full_price]`,
         );
+        const fullPriceElement = fullPriceNode
+          ? parseFloat(fullPriceNode.innerHTML.replaceAll(",", ".").replace(/[^0-9.,]+/g, '')) || 0
+          : currentUnitPrice;
         hasItems = true;
         if (shouldSkipRecurring && isRecurringByProductId(currentProduct.id)) {
           // Skip recurring main product for Klarna
