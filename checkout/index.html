@@ -17,7 +17,7 @@ function handleUrlParams(params) {
   }
   params.forEach((value, key) => {
     const paramKey = `p_${key}`;
-    if (!sessionStorage.getItem(paramKey) && specialParams.includes(paramKey)) {
+    if (specialParams.includes(paramKey)) {
       if (!discountsAllowed) return;
       if (paramKey === "p_dc" && !allowedDcValues.includes(value)) return;
       sessionStorage.setItem(paramKey, value);
@@ -53,7 +53,6 @@ if (localStorage.getItem('sK_r')) {
       ? baseNext + '?' + urlParams.toString()
       : baseNext;
     nextPageSlug = withQuery && !withQuery.startsWith('/') ? '/69d8f2a7a35d2583c8a74ab6-preview/' + withQuery : withQuery;
-    handleUrlParams(urlParams);
 
     document.addEventListener("DOMContentLoaded", () => {
       MVMT.init('69d8f2a7a35d2583c8a74ab6', 'Checkout')
@@ -78,7 +77,7 @@ if (localStorage.getItem('sK_r')) {
 const route = async () => {
   if (localStorage.getItem('sK_r')) return JSON.parse(localStorage.getItem('sK_r'));
   const sessionId = MVMT.getSessionId() || localStorage.getItem("mvmt_session_id") || "";
-  const url = 'https://func-ab-test-events-staging-001.azurewebsites.net/api/checkRoute?id=69d8f2a7a35d2583c8a74ab6&v=177616440742190&sessionId='+sessionId;
+  const url = 'https://func-ab-test-events-staging-001.azurewebsites.net/api/checkRoute?id=69d8f2a7a35d2583c8a74ab6&v=177641427353957&sessionId='+sessionId;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Network response was not ok');
@@ -130,9 +129,7 @@ const nextPage = async () => {
   return absolute;
 }
 const urlParams = new URLSearchParams(window.location.search);
-urlParams.forEach((value, key) => {
-  sessionStorage.setItem(key, value);
-});
+handleUrlParams(urlParams);
 
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (event) => {
@@ -5416,7 +5413,7 @@ setInterval(function () {
     return container;
   }
 
-  function exitFirstOpen() {
+  function exitFirstOpen() { if (parseInt(sessionStorage.getItem('p_dc')) || sessionStorage.getItem('p_tenbucksoff') === 'yes') return;
     const shouldShowSecondPopup = { value: true };
     const shouldScroll = { value: true };
     createModal(
